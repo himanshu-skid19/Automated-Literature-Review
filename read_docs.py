@@ -10,25 +10,33 @@ def download_pdf(url, file_name):
     else:
         print(response.status_code)
 
-def extract_text_from_pdf(pdf_path):
+def extract_text_from_pdf(pdf_path, output_dir='pdf_content/'):
     """
-    Extracts text from each page of a PDF file.
-
+    Extracts text from each page of a PDF file and saves each page's text as a separate text file.
+    
     Parameters:
     - pdf_path (str): The file path to the PDF from which to extract text.
-
+    - output_dir (str): The directory path where text files will be saved.
+    
     Returns:
-    - List[str]: A list of strings where each string contains the text of a PDF page.
+    - int: Number of pages processed and saved as text files.
     """
-    text_vector = []  # Initialize an empty list to store text from each page
-    
+    data_path = Path(output_dir)
+    if not data_path.exists():
+        data_path.mkdir(parents=True, exist_ok=True)
+
+    text_count = 0
     with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
+        for i, page in enumerate(pdf.pages, 1):
             page_text = page.extract_text()
-            if page_text:  # Only add the text if it's not None
-                text_vector.append(page_text)
-    
-    return text_vector
+            if page_text:
+                text_file_path = data_path / f"page_{i}.txt"
+                with open(text_file_path, "w", encoding='utf-8') as file:  # Specify UTF-8 encoding here
+                    file.write(page_text)
+
+
+
+
 
 def extract_images_from_pdf(pdf_path, save_dir='pdf_content/'):
     if not os.path.exists(save_dir):

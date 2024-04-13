@@ -14,7 +14,7 @@ def add_link():
         text = extract_text_from_pdf("pdf_content.pdf")
         images = extract_images_from_pdf("pdf_content.pdf")
         # Build the vector store with the extracted content
-        index = build_vector_store()
+        index = build_vector_store(text)
         # Store the index in session state for querying later
         st.session_state['vector_store_index'] = index
         # Clear the link input field after processing

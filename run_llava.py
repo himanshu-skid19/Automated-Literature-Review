@@ -2,7 +2,7 @@ import json
 import requests
 import base64
 
-def run_llava(image_path):
+def run_llava(prompt, image_path):
     with open(image_path, "rb") as image_file:
      image_base = base64.b64encode(image_file.read()).decode('utf-8')
 
@@ -10,7 +10,7 @@ def run_llava(image_path):
 
     payload = {
     "model": "llava",
-    "prompt": "identify any tables from this image and extract the data from it and structure your output in the form of a json object. It should have a caption starting with 'Table'", 
+    "prompt": prompt, 
     "stream": False, 
     "images": [image_base]
     }
