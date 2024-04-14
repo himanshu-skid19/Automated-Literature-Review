@@ -1,0 +1,16 @@
+streamlit
+pdfplumber
+matplotlib
+PyPDF2
+PyMuPDF
+camelot-py[base]
+opencv-python
+llama-index-vector-stores-qdrant
+llama-index-readers-file
+llama-index-embeddings-fastembed
+llama-index-llms-openai
+llama-index
+qdrant_client
+llama-index-embeddings-clip
+git+https://github.com/openai/CLIP.git
+llama-index-embeddings-cohere 
