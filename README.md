@@ -25,7 +25,7 @@ cd Multimodal-RAG-QA
 pip install -r requirements.txt
 ```
 
-# Team Members:
+### Team Members:
 
 1. Himanshu Singhal - [@himanshu-skid19](https://github.com/himanshu-skid19)
 2. Anushka Gupta - [@anushkacodez](https://github.com/anushkacodez)
