@@ -23,3 +23,11 @@ To get started with this project, clone this repository and follow the setup ins
 git clone https://github.com/himanshu-skid19/Multimodal-RAG-QA.git
 cd Multimodal-RAG-QA
 pip install -r requirements.txt
+```
+
+# Team Members:
+
+1. Himanshu Singhal - [@himanshu-skid19](https://github.com/himanshu-skid19)
+2. Anushka Gupta - [@anushkacodez](https://github.com/anushkacodez)
+3. Atul Jha - [@Atul-04](https://github.com/Atul-04)
+4. Parth Agarwal - [@Parth-Agarwal216](https://github.com/Parth-Agarwal216)
