@@ -25,6 +25,14 @@ cd Multimodal-RAG-QA
 pip install -r requirements.txt
 ```
 
+#### Setup the Qdrant Server
+1. Make sure you have Docker installed and running
+2. Run the following:
+   ```bash
+    docker pull qdrant/qdrant
+    docker run -d --name qdrant_server -p 6333:6333 qdrant/qdrant
+   ```
+
 ### Team Members:
 
 1. Himanshu Singhal - [@himanshu-skid19](https://github.com/himanshu-skid19)
