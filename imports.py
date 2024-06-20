@@ -21,13 +21,16 @@ from llama_index.vector_stores.qdrant import QdrantVectorStore
 from llama_index.core import VectorStoreIndex, StorageContext
 from llama_index.core.indices import MultiModalVectorStoreIndex
 from llama_index.multi_modal_llms.openai import OpenAIMultiModal
-from langchain_core.prompts.prompt import PromptTemplate
+# from langchain_core.prompts.prompt import PromptTemplate
+from llama_index.core import PromptTemplate
 from llama_index.llms.openai import OpenAI
 from llama_index.core.indices.query.query_transform.base import (
     StepDecomposeQueryTransform,
 )
 # set Logging to DEBUG for more detailed outputs
 from llama_index.core.query_engine import MultiStepQueryEngine
+import llama_index
+from llama_index.llms.gemini import Gemini
 
 
 
