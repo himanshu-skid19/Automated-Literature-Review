@@ -1,26 +1,36 @@
-import os
 import requests
-import streamlit as st
-import pdfplumber
-import matplotlib.pyplot as plt
+import PyPDF2
 import fitz
-import io
 from PIL import Image
-from llama_index.multi_modal_llms.openai import OpenAIMultiModal
-from llama_index.core import SimpleDirectoryReader, StorageContext
-from llama_index.vector_stores.qdrant import QdrantVectorStore
-import qdrant_client
-from llama_index.core import PromptTemplate, VectorStoreIndex, StorageContext
-from llama_index.core.query_engine import SimpleMultiModalQueryEngine
-from llama_index.core.schema import ImageNode
-from llama_index.core.indices import MultiModalVectorStoreIndex
-from llama_index.core.schema import TextNode
-from pathlib import Path
+import matplotlib.pyplot as plt
+import io
+import os
+import glob
+import pandas as pd
+from llama_index.core import SimpleDirectoryReader
+from llama_index.core.node_parser import (
+    SentenceSplitter,
+    SemanticSplitterNodeParser,
+)
 from llama_index.embeddings.openai import OpenAIEmbedding
-from llama_index.embeddings.clip import ClipEmbedding
-from llama_index.embeddings.cohere import CohereEmbedding
-from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain.output_parsers import PydanticToolsParser
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from torchvision import transforms
+import torch
+import qdrant_client
+from llama_index.core import SimpleDirectoryReader
+from llama_index.vector_stores.qdrant import QdrantVectorStore
+from llama_index.core import VectorStoreIndex, StorageContext
+from llama_index.core.indices import MultiModalVectorStoreIndex
+from llama_index.multi_modal_llms.openai import OpenAIMultiModal
+from langchain_core.prompts.prompt import PromptTemplate
+from llama_index.llms.openai import OpenAI
+from llama_index.core.indices.query.query_transform.base import (
+    StepDecomposeQueryTransform,
+)
+# set Logging to DEBUG for more detailed outputs
+from llama_index.core.query_engine import MultiStepQueryEngine
 
+
+
+
+import warnings
+warnings.filterwarnings('ignore')

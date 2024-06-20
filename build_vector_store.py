@@ -21,15 +21,22 @@ def cleanup():
 # Perform cleanup tasks before running the application
 cleanup()
 
+def split(documents):
+    embed_model = OpenAIEmbedding()
+    splitter = SemanticSplitterNodeParser(
+    buffer_size=1, breakpoint_percentile_threshold=95, embed_model=embed_model
+    )
+    nodes = splitter.get_nodes_from_documents(documents)
 
+    return nodes
 
-def build_vector_store(text_vector):
+def build_vector_store(nodes):
+
     
-    
-    client = qdrant_client.QdrantClient(path="qdrant_mixed_img")
+    client = qdrant_client.QdrantClient(path="qdrant_mm_db")
 
     text_store = QdrantVectorStore(
-    client=client, collection_name="text_collection"
+        client=client, collection_name="text_collection"
     )
     image_store = QdrantVectorStore(
         client=client, collection_name="image_collection"
@@ -37,15 +44,11 @@ def build_vector_store(text_vector):
     storage_context = StorageContext.from_defaults(
         vector_store=text_store, image_store=image_store
     )
-    
-    image_embed_model = ClipEmbedding()
 
-    documents = SimpleDirectoryReader("pdf_content").load_data()
-
-    index = MultiModalVectorStoreIndex.from_documents(
-        documents,
+    index = MultiModalVectorStoreIndex(
+        nodes,
+        api_key=OPENAI_API_KEY,
         storage_context=storage_context,
-        image_embed_model=image_embed_model,
     )
     index.storage_context.persist(persist_dir="./storage")
 
