@@ -10,31 +10,20 @@ def download_pdf(url, file_name):
     else:
         print(response.status_code)
 
-def extract_text_from_pdf(pdf_path, output_dir='pdf_content/'):
-    """
-    Extracts text from each page of a PDF file and saves each page's text as a separate text file.
-    
-    Parameters:
-    - pdf_path (str): The file path to the PDF from which to extract text.
-    - output_dir (str): The directory path where text files will be saved.
-    
-    Returns:
-    - int: Number of pages processed and saved as text files.
-    """
-    data_path = Path(output_dir)
-    if not data_path.exists():
-        data_path.mkdir(parents=True, exist_ok=True)
-
-    text_count = 0
-    with pdfplumber.open(pdf_path) as pdf:
-        for i, page in enumerate(pdf.pages, 1):
-            page_text = page.extract_text()
-            if page_text:
-                text_file_path = data_path / f"page_{i}.txt"
-                with open(text_file_path, "w", encoding='utf-8') as file:  # Specify UTF-8 encoding here
-                    file.write(page_text)
-
-
+def extract_text_from_pdf(file_path, save_dir='pdf_content/'):
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    with open(file_path, 'rb') as file:
+        reader = PyPDF2.PdfReader(file)
+        page_text = []
+        for i, page in enumerate(reader.pages):
+            extracted_text = page.extract_text()
+            if extracted_text:
+                text_path = os.path.join(save_dir, f'page_{i+1}.txt')
+                with open(text_path, 'w') as text_file:
+                  text_file.write(extracted_text)
+                page_text.append(extracted_text)
+        return page_text
 
 
 

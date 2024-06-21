@@ -1,4 +1,6 @@
 from imports import *
 
-os.environ["OPENAI_API_KEY"] = "INSERT KEY HERE"
+os.environ["OPENAI_API_KEY"] = "INSERT OPENAI API KEY HERE"
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+GEMINI_API_KEY = "INSERT GEMINI API KEY HERE"
+os.environ["GOOGLE_API_KEY"] = GEMINI_API_KEY

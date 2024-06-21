@@ -1,14 +1,12 @@
 from imports import *
-class ParaphrasedQuery(BaseModel):
-    """You have performed query expansion to generate a paraphrasing of a question."""
 
-    paraphrased_query: str = Field(
-        ...,
-        description="A unique paraphrasing of the original question.",
-    )
+openai_mm_llm = OpenAIMultiModal(
+    model="gpt-4o",  # Use the correct model identifier
+    api_key=os.getenv("OPENAI_API_KEY"),
+    max_new_tokens=300
+)
 
-
-def query(query_str, index, llm):
+def query(query_str, index):
     qa_tmpl_str = (
     "Context information is below.\n"
     "---------------------\n"
@@ -21,12 +19,40 @@ def query(query_str, index, llm):
     )
 
     qa_tmpl = PromptTemplate(qa_tmpl_str)
+    gemini = Gemini(model = "models/gemini-pro")
+    gpt35 = OpenAI(temperature=0, model="gpt-3.5-turbo")
 
-    query_engine = index.as_query_engine(
-        llm=llm, text_qa_template=qa_tmpl
+    # LLM (gpt-4)
+    gpt4 = OpenAI(temperature=0, model="gpt-4-turbo")
+
+    # gpt-4
+    step_decompose_transform = StepDecomposeQueryTransform(llm=gpt4, verbose=True)
+
+    # gpt-3
+    step_decompose_transform_gpt3 = StepDecomposeQueryTransform(
+        llm=gpt35, verbose=True
     )
+    step_decompose_transform_gemini = StepDecomposeQueryTransform(
+        llm=gemini, verbose=True
+    )
+    index_summary = "Used to answer questions about a research paper"
+
+    # query_engine = index.as_query_engine(
+    #     llm=llm, text_qa_template=qa_tmpl
+    # )
     
-    response = query_engine.query(query_str)
+    # response = query_engine.query(query_str)
+    query_engine = index.as_query_engine(
+    llm=openai_mm_llm
+    )
+    query_engine = MultiStepQueryEngine(
+        query_engine=query_engine,
+        query_transform=step_decompose_transform_gemini,
+        index_summary=index_summary,
+    )
+    response = query_engine.query(
+        query_str
+    )
 
     return str(response)
 
