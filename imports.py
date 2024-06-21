@@ -31,7 +31,7 @@ from llama_index.core.indices.query.query_transform.base import (
 from llama_index.core.query_engine import MultiStepQueryEngine
 import llama_index
 from llama_index.llms.gemini import Gemini
-
+import tiktoken
 
 
 
