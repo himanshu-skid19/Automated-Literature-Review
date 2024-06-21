@@ -26,4 +26,5 @@ llama-index-multi-modal-llms-gemini
 llama-index-embeddings-gemini
 llama-index-llms-gemini
 chainlit
+tiktoken
     
