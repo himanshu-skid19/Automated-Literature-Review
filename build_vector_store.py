@@ -21,8 +21,20 @@ import shutil
 # # Perform cleanup tasks before running the application
 # cleanup()
 
+def get_token_amount(text):
+    encoding = tiktoken.encoding_for_model("text-embedding-3-large")
+    return len(encoding.encode(text))
+    
+def process_documents(documents):
+  new_docs = []
+  for document in documents:
+    if(get_token_amount(document.text) < 7500):
+      new_docs.append(document)
+  return new_docs
+
 def split(documents):
-    embed_model = OpenAIEmbedding()
+    documents = process_documents(documents)
+    embed_model = OpenAIEmbedding("text-embedding-3-large")
     splitter = SemanticSplitterNodeParser(
     buffer_size=1, breakpoint_percentile_threshold=95, embed_model=embed_model
     )
