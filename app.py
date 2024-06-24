@@ -34,8 +34,8 @@ async def main(message: cl.Message):
                 # Load documents and build the vector store
                 documents = SimpleDirectoryReader("files/").load_data()
                 nodes = split(documents)
-                index = build_vector_store(nodes)
-                
+                index = build_vector_store(nodes, documents)
+
                 # Create a query engine
                 query_engine = index.as_query_engine(llm=openai_mm_llm)
                 
